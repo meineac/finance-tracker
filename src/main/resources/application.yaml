@@ -1,3 +1,9 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: finance-tracker
+  datasource:
+    url: jdbc:postgresql://localhost:5432/finance_tracker
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
