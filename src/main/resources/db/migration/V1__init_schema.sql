@@ -1,0 +1,37 @@
+CREATE TABLE app_user (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    full_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE account (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id BIGINT REFERENCES app_user(id) ON DELETE CASCADE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    balance NUMERIC(15,2) NOT NULL DEFAULT 0
+);
+
+CREATE TABLE category (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE transaction (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    account_id BIGINT REFERENCES account(id) ON DELETE CASCADE NOT NULL,
+    category_id BIGINT REFERENCES category(id) NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    amount NUMERIC(15,2) NOT NULL CHECK(amount > 0),
+    transaction_time TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE budget (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id BIGINT REFERENCES app_user(id) ON DELETE CASCADE NOT NULL,
+    category_id BIGINT REFERENCES category(id) ON DELETE CASCADE NOT NULL,
+    month_year DATE NOT NULL CHECK (EXTRACT(DAY FROM month_year) = 1),
+    limit_amount NUMERIC(15,2) NOT NULL CHECK (limit_amount >= 0),
+    CONSTRAINT uq_user_category_month UNIQUE (user_id, category_id, month_year)
+);
