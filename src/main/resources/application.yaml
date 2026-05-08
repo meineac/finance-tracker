@@ -1,6 +1,9 @@
 spring:
   config:
     import: optional:file:.env[.properties]
+  mvc:
+    problemdetails:
+      enabled: true
   application:
     name: finance-tracker
   datasource:
