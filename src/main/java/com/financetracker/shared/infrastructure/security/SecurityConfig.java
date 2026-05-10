@@ -1,6 +1,6 @@
-package com.financetracker.shared.api.security;
+package com.financetracker.shared.infrastructure.security;
 
-import com.financetracker.shared.core.PublicRouteProvider;
+import com.financetracker.shared.api.config.PublicRouteProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ public class SecurityConfig {
     private final List<PublicRouteProvider> publicRouteProviders;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         String[] publicRoutes = publicRouteProviders.stream()
                 .map(PublicRouteProvider::getPublicRoutes)
                 .flatMap(Arrays::stream)

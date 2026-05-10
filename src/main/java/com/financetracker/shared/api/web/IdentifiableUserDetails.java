@@ -1,4 +1,4 @@
-package com.financetracker.shared.model;
+package com.financetracker.shared.api.web;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

@@ -1,4 +1,4 @@
-package com.financetracker.shared.api;
+package com.financetracker.shared.api.advice;
 
 import com.financetracker.shared.core.exception.DuplicateResourceException;
 import com.financetracker.shared.core.exception.ResourceNotFoundException;

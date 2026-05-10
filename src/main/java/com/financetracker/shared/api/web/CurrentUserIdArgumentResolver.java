@@ -1,7 +1,7 @@
-package com.financetracker.shared.api;
+package com.financetracker.shared.api.web;
 
+import com.financetracker.shared.api.annotation.CurrentUserId;
 import com.financetracker.shared.core.exception.UnauthorizedAccessException;
-import com.financetracker.shared.model.IdentifiableUserDetails;
 import org.jspecify.annotations.NonNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
@@ -27,7 +27,11 @@ public class CurrentUserIdArgumentResolver implements HandlerMethodArgumentResol
                 "anonymousUser".equals(authentication.getPrincipal())) {
             throw new UnauthorizedAccessException("User not authenticated");
         }
-        IdentifiableUserDetails user = (IdentifiableUserDetails) authentication.getPrincipal();
+        Object principal = authentication.getPrincipal();
+
+        if (!(principal instanceof IdentifiableUserDetails user)) {
+            throw new UnauthorizedAccessException("Invalid user identity");
+        }
 
         Long userId = user.getId();
         if (userId == null) {

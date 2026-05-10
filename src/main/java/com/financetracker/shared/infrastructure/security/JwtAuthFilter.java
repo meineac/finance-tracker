@@ -1,6 +1,5 @@
-package com.financetracker.shared.api.security;
+package com.financetracker.shared.infrastructure.security;
 
-import com.financetracker.shared.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
