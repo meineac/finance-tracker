@@ -1,8 +1,8 @@
 package com.financetracker.shared.api;
 
-import com.financetracker.shared.exception.DuplicateResourceException;
-import com.financetracker.shared.exception.ResourceNotFoundException;
-import com.financetracker.shared.exception.UnauthorizedAccessException;
+import com.financetracker.shared.core.exception.DuplicateResourceException;
+import com.financetracker.shared.core.exception.ResourceNotFoundException;
+import com.financetracker.shared.core.exception.UnauthorizedAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,4 +1,4 @@
-package com.financetracker.shared.security;
+package com.financetracker.shared.api;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

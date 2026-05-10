@@ -1,4 +1,4 @@
-package com.financetracker.shared.security;
+package com.financetracker.shared.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

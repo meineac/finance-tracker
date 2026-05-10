@@ -1,5 +1,6 @@
-package com.financetracker.shared.security;
+package com.financetracker.shared.api.security;
 
+import com.financetracker.shared.core.PublicRouteProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

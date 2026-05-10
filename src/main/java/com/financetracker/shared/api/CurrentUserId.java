@@ -1,4 +1,4 @@
-package com.financetracker.shared.security;
+package com.financetracker.shared.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

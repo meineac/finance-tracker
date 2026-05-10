@@ -10,3 +10,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/finance_tracker
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+
+application:
+  security:
+    jwt:
+      secret-key: your_very_long_secure_secret_key_here
+      expiration: 86400000

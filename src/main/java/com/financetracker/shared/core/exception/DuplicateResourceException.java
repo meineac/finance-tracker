@@ -1,4 +1,4 @@
-package com.financetracker.shared.exception;
+package com.financetracker.shared.core.exception;
 
 public class DuplicateResourceException extends RuntimeException {
     public DuplicateResourceException(String message) {

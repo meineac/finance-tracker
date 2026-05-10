@@ -1,6 +1,7 @@
-package com.financetracker.shared.security;
+package com.financetracker.shared.api;
 
-import com.financetracker.shared.exception.UnauthorizedAccessException;
+import com.financetracker.shared.core.exception.UnauthorizedAccessException;
+import com.financetracker.shared.model.IdentifiableUserDetails;
 import org.jspecify.annotations.NonNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
