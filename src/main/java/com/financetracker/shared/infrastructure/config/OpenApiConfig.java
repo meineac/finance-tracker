@@ -18,7 +18,7 @@ public class OpenApiConfig {
                         .title("Personal Finance Tracker API")
                         .version("1.0.0")
                         .description("Clean Architecture Backend API Specification"))
-                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+                //.addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 .components(new Components()
                         .addSecuritySchemes(securitySchemeName, new SecurityScheme()
                                 .name(securitySchemeName)
