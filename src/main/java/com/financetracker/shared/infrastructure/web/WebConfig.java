@@ -1,4 +1,4 @@
-package com.financetracker.shared.infrastructure.security;
+package com.financetracker.shared.infrastructure.web;
 
 import com.financetracker.shared.api.web.CurrentUserIdArgumentResolver;
 import org.springframework.context.annotation.Configuration;
