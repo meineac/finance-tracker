@@ -8,4 +8,5 @@ import java.util.List;
 public interface AccountService {
     Account createAccount(Long userId, String name, AccountType type);
     List<Account> getUserAccounts(Long userId);
+    Account getByIdAndUserId(Long id, Long userId);
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -27,6 +28,12 @@ public class AccountRepositoryImpl implements AccountRepository {
         AccountJpaEntity entity = toJpaEntity(account);
         AccountJpaEntity savedEntity = jpaRepository.save(entity);
         return toDomain(savedEntity);
+    }
+
+    @Override
+    public Optional<Account> findByIdAndUserId(Long id, Long userId) {
+        return jpaRepository.findByIdAndUserId(id, userId)
+                .map(this::toDomain);
     }
 
     private Account toDomain(AccountJpaEntity entity) {

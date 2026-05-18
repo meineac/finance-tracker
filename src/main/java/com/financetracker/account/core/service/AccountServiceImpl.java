@@ -2,6 +2,7 @@ package com.financetracker.account.core.service;
 
 import com.financetracker.account.core.model.Account;
 import com.financetracker.account.core.model.AccountType;
+import com.financetracker.shared.core.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,5 +26,12 @@ public class AccountServiceImpl implements AccountService {
     @Transactional(readOnly = true)
     public List<Account> getUserAccounts(Long userId) {
         return accountRepository.findAllByUserId(userId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Account getByIdAndUserId(Long id, Long userId) {
+        return accountRepository.findByIdAndUserId(id, userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found"));
     }
 }
