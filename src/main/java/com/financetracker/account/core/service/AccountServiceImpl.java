@@ -34,4 +34,18 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found"));
     }
+
+    @Override
+    @Transactional
+    public void adjustBalance(Long accountId, BigDecimal amount) {
+        accountRepository.adjustBalance(accountId, amount);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void validateOwnership(Long accountId, Long userId) {
+        if (!accountRepository.existsByIdAndUserId(accountId, userId)) {
+            throw new ResourceNotFoundException("Account not found");
+        }
+    }
 }

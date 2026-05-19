@@ -6,6 +6,7 @@ import com.financetracker.account.core.service.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +35,16 @@ public class AccountRepositoryImpl implements AccountRepository {
     public Optional<Account> findByIdAndUserId(Long id, Long userId) {
         return jpaRepository.findByIdAndUserId(id, userId)
                 .map(this::toDomain);
+    }
+
+    @Override
+    public boolean existsByIdAndUserId(Long id, Long userId) {
+        return jpaRepository.existsByIdAndUserId(id, userId);
+    }
+
+    @Override
+    public void adjustBalance(Long accountId, BigDecimal amount){
+        jpaRepository.adjustBalance(accountId, amount);
     }
 
     private Account toDomain(AccountJpaEntity entity) {
