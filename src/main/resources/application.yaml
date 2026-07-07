@@ -7,7 +7,7 @@ spring:
   application:
     name: finance-tracker
   datasource:
-    url: jdbc:postgresql://localhost:5432/finance_tracker
+    url: jdbc:postgresql://localhost:5432/${DB_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
