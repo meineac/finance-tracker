@@ -18,7 +18,7 @@ public class TransactionCategoryServiceImpl implements TransactionCategoryServic
     @Transactional
     public TransactionCategory createCategory(Long userId, String name) {
         categoryRepository.findByNameAndUserId(name, userId)
-                .ifPresent(_ -> {
+                .ifPresent(existing -> {
                     throw new DuplicateResourceException("Category with name '" + name + "' already exists");
                 });
 

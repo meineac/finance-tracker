@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+    show-sql: false
+  flyway:
+    enabled: false
+  mvc:
+    problemdetails:
+      enabled: true
+
+application:
+  security:
+    jwt:
+      secret-key: test_very_long_secure_secret_key_for_testing_purposes_only_at_least_256_bits
+      expiration: 86400000
+  exchange-rate:
+    api-url: https://api.exchangerate.host
