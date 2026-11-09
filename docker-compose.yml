@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:18.4-alpine
-    container_name: finance-tracker-db
+    container_name: postgres-finance-tracker
     environment:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -9,7 +9,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - postgres:/var/lib/postgresql
 
 volumes:
-  postgres_data:
+  postgres:
+    name: postgres-finance-tracker-volume
+    driver: local
