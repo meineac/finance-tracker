@@ -1,6 +1,6 @@
 package com.financetracker.account.infrastructure.repository;
 
-import com.financetracker.account.core.model.*;
+import com.financetracker.account.core.model.Account;
 
 import com.financetracker.account.core.service.AccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public void adjustBalance(Long accountId, BigDecimal amount){
+    public void adjustBalance(Long accountId, BigDecimal amount) {
         jpaRepository.adjustBalance(accountId, amount);
     }
 
