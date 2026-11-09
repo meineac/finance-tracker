@@ -1,0 +1,3 @@
+$kind: collection
+description: Direct URL access without auth, IDOR parameter tampering, and RFC 7807 leakage checks
+order: 5000

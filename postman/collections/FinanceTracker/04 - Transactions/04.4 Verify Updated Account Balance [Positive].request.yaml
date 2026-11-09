@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{baseUrl}}/api/accounts"
+method: GET
+headers:
+  Authorization: Bearer {{token}}
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 200 OK', function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test('Account balance reflects atomic math (1000.50 - 250.00 = 750.50)', function () {
+          const data = pm.response.json();
+          const cardId = Number(pm.environment.get('cardAccountId') || pm.collectionVariables.get('cardAccountId'));
+          const acc = data.find(a => a.id === cardId);
+          pm.expect(acc).to.not.be.undefined;
+          pm.expect(Number(acc.balance)).to.eql(750.50);
+      });
+    language: text/javascript
+order: 4000

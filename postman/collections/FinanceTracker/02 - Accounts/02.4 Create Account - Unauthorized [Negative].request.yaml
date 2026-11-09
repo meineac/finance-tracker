@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{baseUrl}}/api/accounts"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Unauthorized Account",
+      "type": "CARD"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 401 or 403 without authorization', function () {
+          pm.expect(pm.response.code).to.be.oneOf([401, 403]);
+      });
+    language: text/javascript
+order: 4000

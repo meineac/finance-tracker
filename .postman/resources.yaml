@@ -1,3 +1,7 @@
 workspace:
-  id: "aed753cb-96b0-4665-8c55-bc7ec0fb83c2"
-  name: meineac/finance-tracker
+  id: aed753cb-96b0-4665-8c55-bc7ec0fb83c2
+cloudResources:
+  collections:
+    ../postman/collections/FinanceTracker: 52345339-ac988f85-4e4d-4c86-8a06-f3ae6f321d7f
+  environments:
+    ../postman/environments/Finance Tracker (Local).environment.yaml: 52345339-fadc36d8-f4d9-4eed-b464-1bef6884536c

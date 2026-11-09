@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{baseUrl}}/api/transactions"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: text
+  content: |-
+    {
+      "accountId": {{cardAccountId}},
+      "categoryId": 999999,
+      "type": "EXPENSE",
+      "amount": 10.00,
+      "description": "Ghost category"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 404 Not Found for non-existent category', function () {
+          pm.response.to.have.status(404);
+      });
+    language: text/javascript
+order: 7000

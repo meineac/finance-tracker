@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/api/users/register"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "email": "not-an-email",
+      "password": "password123",
+      "fullName": "Invalid User"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 400 Bad Request', function () {
+          pm.response.to.have.status(400);
+      });
+      pm.test('ProblemDetail conforms to RFC 7807', function () {
+          const data = pm.response.json();
+          pm.expect(data).to.have.property('status', 400);
+          pm.expect(pm.response.text()).to.not.include('Exception');
+      });
+    language: text/javascript
+order: 3000

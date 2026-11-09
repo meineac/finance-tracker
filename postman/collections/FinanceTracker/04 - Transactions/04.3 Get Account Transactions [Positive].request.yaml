@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{baseUrl}}/api/transactions/account/{{cardAccountId}}"
+method: GET
+headers:
+  Authorization: Bearer {{token}}
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 200 OK', function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test('Returns 2 transactions in descending chronological order', function () {
+          const data = pm.response.json();
+          pm.expect(data).to.be.an('array').with.lengthOf(2);
+          const expId = Number(pm.environment.get('txExpenseId') || pm.collectionVariables.get('txExpenseId'));
+          const incId = Number(pm.environment.get('txIncomeId') || pm.collectionVariables.get('txIncomeId'));
+          pm.expect(data[0].id).to.eql(expId);
+          pm.expect(data[1].id).to.eql(incId);
+      });
+    language: text/javascript
+order: 3000

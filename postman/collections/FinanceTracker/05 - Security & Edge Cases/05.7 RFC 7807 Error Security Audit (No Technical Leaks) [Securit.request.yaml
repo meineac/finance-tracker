@@ -1,0 +1,35 @@
+$kind: http-request
+name: 05.7 RFC 7807 Error Security Audit (No Technical Leaks) [Security]
+url: "{{baseUrl}}/api/transactions"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: text
+  content: |-
+    {
+      "accountId": 999999,
+      "categoryId": {{categoryId}},
+      "type": "EXPENSE",
+      "amount": 10.00,
+      "description": "Audit"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 404', function () {
+          pm.response.to.have.status(404);
+      });
+      pm.test('RFC 7807 problem details does not leak stack trace or internal SQL/paths', function () {
+          const text = pm.response.text();
+          pm.expect(text).to.not.include('Exception:');
+          pm.expect(text).to.not.include('at org.springframework.');
+          pm.expect(text).to.not.include('at com.financetracker.');
+          pm.expect(text).to.not.include('SELECT ');
+          pm.expect(text).to.not.include('INSERT ');
+          pm.expect(text).to.not.include('C:\\');
+          pm.expect(text).to.not.include('/home/');
+      });
+    language: text/javascript
+order: 7000

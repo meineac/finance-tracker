@@ -1,0 +1,39 @@
+$kind: http-request
+url: "{{baseUrl}}/api/users/register"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "email": "{{userA_email}}",
+      "password": "{{userA_password}}",
+      "fullName": "{{userA_fullName}}"
+    }
+scripts:
+  - type: beforeRequest
+    code: |-
+      const ts = Date.now();
+      const email = `usera_${ts}@example.com`;
+      pm.collectionVariables.set('userA_email', email);
+      pm.environment.set('userA_email', email);
+      pm.collectionVariables.set('userA_password', 'password123');
+      pm.environment.set('userA_password', 'password123');
+      pm.collectionVariables.set('userA_fullName', 'Test User A');
+      pm.environment.set('userA_fullName', 'Test User A');
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 201 Created', function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test('Response contains JWT token', function () {
+          const data = pm.response.json();
+          pm.expect(data).to.have.property('token');
+          pm.expect(data.token).to.be.a('string').and.not.empty;
+          pm.collectionVariables.set('token', data.token);
+          pm.environment.set('token', data.token);
+      });
+    language: text/javascript
+order: 1000

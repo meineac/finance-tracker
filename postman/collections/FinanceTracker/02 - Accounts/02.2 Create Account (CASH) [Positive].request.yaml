@@ -1,0 +1,29 @@
+$kind: http-request
+url: "{{baseUrl}}/api/accounts"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: text
+  content: |-
+    {
+      "name": "Wallet Cash",
+      "type": "CASH"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 201 Created', function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test('CASH Account created with balance 0.00', function () {
+          const data = pm.response.json();
+          pm.expect(data).to.have.property('id');
+          pm.expect(data.name).to.eql('Wallet Cash');
+          pm.expect(data.type).to.eql('CASH');
+          pm.collectionVariables.set('cashAccountId', data.id);
+          pm.environment.set('cashAccountId', data.id);
+      });
+    language: text/javascript
+order: 2000

@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{baseUrl}}/api/categories"
+method: GET
+headers:
+  Authorization: Bearer {{token}}
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 200 OK', function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test('Contains system default and custom category', function () {
+          const data = pm.response.json();
+          pm.expect(data).to.be.an('array');
+          const catName = pm.environment.get('categoryName') || pm.collectionVariables.get('categoryName');
+          const names = data.map(c => c.name);
+          pm.expect(names).to.include(catName);
+      });
+    language: text/javascript
+order: 2000

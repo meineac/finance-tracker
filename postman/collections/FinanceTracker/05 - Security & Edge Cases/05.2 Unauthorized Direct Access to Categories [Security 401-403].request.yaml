@@ -1,0 +1,12 @@
+$kind: http-request
+name: 05.2 Unauthorized Direct Access to Categories [Security 401/403]
+url: "{{baseUrl}}/api/categories"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Access denied without Bearer token (401 or 403)', function () {
+          pm.expect(pm.response.code).to.be.oneOf([401, 403]);
+      });
+    language: text/javascript
+order: 2000

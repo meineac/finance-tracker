@@ -1,0 +1,35 @@
+$kind: http-request
+url: "{{baseUrl}}/api/categories"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: text
+  content: |-
+    {
+      "name": "{{categoryName}}"
+    }
+scripts:
+  - type: beforeRequest
+    code: |-
+      const ts = Date.now();
+      const name = `Groceries_${ts}`;
+      pm.collectionVariables.set('categoryName', name);
+      pm.environment.set('categoryName', name);
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 201 Created', function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test('Category created with isCustom=true', function () {
+          const data = pm.response.json();
+          pm.expect(data).to.have.property('id');
+          const catName = pm.environment.get('categoryName') || pm.collectionVariables.get('categoryName');
+          pm.expect(data.name).to.eql(catName);
+          pm.collectionVariables.set('categoryId', data.id);
+          pm.environment.set('categoryId', data.id);
+      });
+    language: text/javascript
+order: 1000

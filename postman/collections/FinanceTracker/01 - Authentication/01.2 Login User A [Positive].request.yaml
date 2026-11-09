@@ -1,0 +1,27 @@
+$kind: http-request
+url: "{{baseUrl}}/api/users/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "email": "{{userA_email}}",
+      "password": "{{userA_password}}"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 200 OK', function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test('Response contains valid JWT token', function () {
+          const data = pm.response.json();
+          pm.expect(data).to.have.property('token');
+          pm.expect(data.token).to.be.a('string').and.not.empty;
+          pm.collectionVariables.set('token', data.token);
+          pm.environment.set('token', data.token);
+      });
+    language: text/javascript
+order: 2000

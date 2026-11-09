@@ -1,0 +1,32 @@
+$kind: http-request
+url: "{{baseUrl}}/api/transactions"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: text
+  content: |-
+    {
+      "accountId": {{cardAccountId}},
+      "categoryId": {{categoryId}},
+      "type": "EXPENSE",
+      "amount": 250.00,
+      "description": "Weekly supermarket grocery"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 201 Created', function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test('EXPENSE transaction created with correct amount', function () {
+          const data = pm.response.json();
+          pm.expect(data).to.have.property('id');
+          pm.expect(data.type).to.eql('EXPENSE');
+          pm.expect(Number(data.amount)).to.eql(250.00);
+          pm.collectionVariables.set('txExpenseId', data.id);
+          pm.environment.set('txExpenseId', data.id);
+      });
+    language: text/javascript
+order: 2000

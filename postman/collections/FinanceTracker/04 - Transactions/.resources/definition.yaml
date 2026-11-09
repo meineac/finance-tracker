@@ -1,0 +1,3 @@
+$kind: collection
+description: Transaction posting, history, and balance verification
+order: 4000

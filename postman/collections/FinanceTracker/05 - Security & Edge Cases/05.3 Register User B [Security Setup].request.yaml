@@ -1,0 +1,38 @@
+$kind: http-request
+url: "{{baseUrl}}/api/users/register"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "email": "{{userB_email}}",
+      "password": "{{userB_password}}",
+      "fullName": "{{userB_fullName}}"
+    }
+scripts:
+  - type: beforeRequest
+    code: |-
+      const ts = Date.now();
+      const email = `userb_${ts}@example.com`;
+      pm.collectionVariables.set('userB_email', email);
+      pm.environment.set('userB_email', email);
+      pm.collectionVariables.set('userB_password', 'password123');
+      pm.environment.set('userB_password', 'password123');
+      pm.collectionVariables.set('userB_fullName', 'Attacker User B');
+      pm.environment.set('userB_fullName', 'Attacker User B');
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 201 Created for User B', function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test('User B token stored', function () {
+          const data = pm.response.json();
+          pm.expect(data.token).to.be.a('string').and.not.empty;
+          pm.collectionVariables.set('userB_token', data.token);
+          pm.environment.set('userB_token', data.token);
+      });
+    language: text/javascript
+order: 3000

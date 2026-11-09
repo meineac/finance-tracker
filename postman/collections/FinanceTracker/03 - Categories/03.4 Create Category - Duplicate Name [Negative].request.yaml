@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{baseUrl}}/api/categories"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: text
+  content: |-
+    {
+      "name": "{{categoryName}}"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 409 Conflict for duplicate category name', function () {
+          pm.response.to.have.status(409);
+      });
+    language: text/javascript
+order: 4000

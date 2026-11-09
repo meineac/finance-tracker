@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{baseUrl}}/api/transactions"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: text
+  content: |-
+    {
+      "accountId": {{cardAccountId}},
+      "categoryId": {{categoryId}},
+      "type": "EXPENSE",
+      "amount": -50.00,
+      "description": "Negative amount"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 400 Bad Request for negative amount', function () {
+          pm.response.to.have.status(400);
+      });
+    language: text/javascript
+order: 5000

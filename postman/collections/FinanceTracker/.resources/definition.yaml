@@ -1,0 +1,5 @@
+$kind: collection
+name: Finance Tracker API Collection
+description: Complete test collection for Finance Tracker API covering positive, negative, request chaining, and security (IDOR, Auth, RFC 7807) scenarios.
+variables:
+  baseUrl: http://localhost:8080

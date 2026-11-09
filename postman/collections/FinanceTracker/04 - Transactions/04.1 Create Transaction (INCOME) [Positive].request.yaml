@@ -1,0 +1,32 @@
+$kind: http-request
+url: "{{baseUrl}}/api/transactions"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: text
+  content: |-
+    {
+      "accountId": {{cardAccountId}},
+      "categoryId": {{categoryId}},
+      "type": "INCOME",
+      "amount": 1000.50,
+      "description": "Salary deposit"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 201 Created', function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test('INCOME transaction created with correct amount', function () {
+          const data = pm.response.json();
+          pm.expect(data).to.have.property('id');
+          pm.expect(data.type).to.eql('INCOME');
+          pm.expect(Number(data.amount)).to.eql(1000.50);
+          pm.collectionVariables.set('txIncomeId', data.id);
+          pm.environment.set('txIncomeId', data.id);
+      });
+    language: text/javascript
+order: 1000

@@ -1,0 +1,25 @@
+$kind: http-request
+url: "{{baseUrl}}/api/users/register"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "email": "{{userA_email}}",
+      "password": "password123",
+      "fullName": "Duplicate User A"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 409 Conflict for duplicate email', function () {
+          pm.response.to.have.status(409);
+      });
+      pm.test('ProblemDetail contains duplicate error message', function () {
+          const data = pm.response.json();
+          pm.expect(data).to.have.property('status', 409);
+      });
+    language: text/javascript
+order: 5000

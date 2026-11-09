@@ -32,3 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 /.env
+
+### Node / Playwright ###
+node_modules/
+test-results/
+playwright-report/
